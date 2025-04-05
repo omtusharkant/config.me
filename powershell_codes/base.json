@@ -1,0 +1,18 @@
+{
+    "AdminCheck": {
+        "description": "PowerShell script to check if the current user has administrator privileges.",
+        "requiresAdmin": false,
+        "Block": "if (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {\n    Write-Host 'Administrator privileges detected.'\n    Write-Host 'User has administrator privileges.'\n} else {\n    Write-Host 'User does not have administrator privileges.'\n    $response = Read-Host 'Administrator privileges are required. Do you want to run as administrator? (yes/no)'\n    if ($response -eq 'yes') {\n        Start-Process -FilePath 'powershell.exe' -ArgumentList '-Command', $MyInvocation.Line -Verb RunAs\n        exit\n    } else {\n        Write-Host 'Operation canceled by the user.'\n        exit\n    }\n}"
+    },
+    "DownloadFile": {
+        "description": "PowerShell script to download a file from a URL.",
+        "requiresAdmin": false,
+        "Block": "try {\n    Write-Host 'Executing steps for block: DownloadFile'\n    $url = '{{download_url}}'\n    $localPath = \"$env:TEMP\\{{file_name}}\"\n    Invoke-WebRequest -Uri $url -OutFile $localPath\n    Write-Host 'File downloaded successfully.'\n} catch {\n    Write-Error 'An error occurred: $_'\n} finally {\n    if (Test-Path $localPath) {\n        Remove-Item $localPath -Force\n    }\n}"
+    },
+    "InstallFile": {
+        "description": "PowerShell script to install a downloaded file.",
+        "requiresAdmin": true,
+        "Block": "try {\n    Write-Host 'Executing steps for block: InstallFile'\n    $installCommand = \"{{install_file}}\"\n    Start-Process -FilePath \"cmd.exe\" -ArgumentList \"/c {{install_file_path}} /quiet InstallAllUsers=1 PrependPath=1 Include_test=0\" -Wait -Verb RunAs    Write-Host 'Installation successful.'\n} catch {\n    Write-Error 'An error occurred: $_'\n} finally {\n    if (Test-Path $localPath) {\n        Remove-Item $localPath -Force\n    }\n}"
+        
+    }
+}
