@@ -1,0 +1,7 @@
+# Ignore json2powershell related files
+/json2powershell.py
+python dev.py
+/scripts/*
+__pycache__/
+/pyconfig/__pycache__/
+/j2power/__pycache__/
