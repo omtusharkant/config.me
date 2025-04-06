@@ -2,6 +2,8 @@ import json
 import os
 import re
 
+import re
+
 def replacevariables(block, replacements: dict):
     """
     Replace variables in the block with the provided replacements.
@@ -15,8 +17,11 @@ def replacevariables(block, replacements: dict):
     """
     for key, value in replacements.items():
         placeholder = f"{{{{{key}}}}}"  # Matches {{key}}
+        
         print(f"Replacing {placeholder} with {value}")
-        block = re.sub(placeholder, value, block)  # Replace the placeholder with the value
+        block = block.replace(placeholder, value)  # Replace the placeholder with the actual value
+        #block = re.sub(escaped_placeholder, value, block)  # Replace the placeholder with the actual value
+        print(f"Block after replacement: {block}")
     return block
 
 def findBlock(blocks, blockset: list):
@@ -88,4 +93,3 @@ def main(blocksets):
     script_code = findBlock(allblocks, blocksets)
     if write_script(script_code, output_file):
         return True
-

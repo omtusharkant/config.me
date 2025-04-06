@@ -7,12 +7,12 @@
     "DownloadFile": {
         "description": "PowerShell script to download a file from a URL.",
         "requiresAdmin": false,
-        "Block": "try {\n    Write-Host 'Executing steps for block: DownloadFile'\n    $url = '{{download_url}}'\n    $localPath = \"$env:TEMP\\{{file_name}}\"\n    Invoke-WebRequest -Uri $url -OutFile $localPath\n    Write-Host 'File downloaded successfully.'\n} catch {\n    Write-Error 'An error occurred: $_'\n} finally {\n    if (Test-Path $localPath) {\n        Remove-Item $localPath -Force\n    }\n}"
+        "Block": "try { \n    Write-Host 'Executing steps for block: DownloadFile'\n    $url = '{{download_url}}'\n    $localPath = \"$env:TEMP\\{{file_name}}\"\n    Write-Host \"TEMP path: $env:TEMP\"\n    Write-Host \"Download path: $localPath\"\n     Invoke-WebRequest -Uri $url -OutFile $localPath\n    Write-Host 'File downloaded successfully.'\n } catch {\n    Write-Error \"An error occurred: $($_.Exception.Message)\"\n} "
     },
     "InstallFile": {
         "description": "PowerShell script to install a downloaded file.",
         "requiresAdmin": true,
-        "Block": "try {\n    Write-Host 'Executing steps for block: InstallFile'\n    $installCommand = \"{{install_file}}\"\n    Start-Process -FilePath \"cmd.exe\" -ArgumentList \"/c {{install_file_path}} /quiet InstallAllUsers=1 PrependPath=1 Include_test=0\" -Wait -Verb RunAs    Write-Host 'Installation successful.'\n} catch {\n    Write-Error 'An error occurred: $_'\n} finally {\n    if (Test-Path $localPath) {\n        Remove-Item $localPath -Force\n    }\n}"
+        "Block": "try {\n    Write-Host 'Executing steps for block: InstallFile'\n    $installpath = \"$env:TEMP\\python-3.13.2-amd64.exe\"\n    Start-Process -FilePath $installpath  -Wait\n} catch {\n    Write-Error \"An error occurred: $($_.Exception.Message)\"\n} finally {\n    if (Test-Path $installpath) {\n        Remove-Item $installpath -Force\n    }\n}"
         
     }
 }
