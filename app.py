@@ -3,6 +3,7 @@ from j2power import j2p
 import os
 import re
 
+from usergroupconfig import userconfig ,groupconfig
 scriptblocks = []
 
 
@@ -18,7 +19,7 @@ if Choice == "linux":
 elif Choice == "windows":
     
 
-    setconfigfor = input("Choose configuration type: \n1. Hosting\n2. Development\n")
+    setconfigfor = input("Choose configuration type: \n1. Hosting\n2. Development\n3.Desktop")
     if setconfigfor == "1":
         print("You chose Hosting configuration.")
         # Add hosting configuration code here
@@ -81,10 +82,49 @@ elif Choice == "windows":
                 else:
                     print("No library installation script added.")
                 
+    elif setconfigfor == "3":
+        ...
+        ugsetting = input("enter User(u) or group(g) management ")
+        if ugsetting == "u":
+            print("user management")
+            UConfig = userconfig.UserConfig("windows")
+            Uchoice = input("Choose an action: \n1. Create user\n2. Delete user\n3. List users\n")
+            if Uchoice == "1":
+                username = input("Enter the username: ")
+                password = input("Enter the password: ")
+                scriptblocks.append(UConfig.create_new_user(username, password))
+                print("User creation script added successfully.")
+            elif Uchoice == "2":
+                username = input("Enter the username to delete: ")
+                scriptblocks.append(UConfig.delete_user(username))
+                print("User deletion script added successfully.")
+            elif Uchoice == "3":
+                scriptblocks.append(UConfig.get_existing_users())
+                print("User listing script added successfully.")
+            else:
+                print("Invalid choice. Please choose a valid action.")
                 
-                
+        elif ugsetting == "g":
+            print("group management")
+            gconfig = groupconfig.groupConfig("windows")
+            Gchoice = input("Choose an action: \n1. Create group\n2. Delete group\n3. List groups\n")
+            if Gchoice == "1":
+                groupname = input("Enter the group name: ")
+                scriptblocks.append(gconfig.create_new_group(groupname))
+                print("Group creation script added successfully.")
+            elif Gchoice == "2":
+                groupname = input("Enter the group name to delete: ")
+                scriptblocks.append(gconfig.delete_group(groupname))
+                print("Group deletion script added successfully.")
+            elif Gchoice == "3":
+                scriptblocks.append(gconfig.get_existing_groups())
+                print("Group listing script added successfully.")
+            else:
+                print("Invalid choice. Please choose a valid action.")
+            
+        
     else:
-        print("Invalid choice. Please choose either '1' or '2'.")
+        print("Invalid choice....")
         exit()
 else:
     print("Invalid choice. Please choose either 'linux' or 'windows'.")

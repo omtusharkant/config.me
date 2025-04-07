@@ -81,7 +81,7 @@ def write_script(script_code: str, output_file: str):
         f.write(script_code)
         return True
 
-def main(blocksets):
+def main(blocksets: list):
     """
     Main function to execute the script generation process.
     """
@@ -89,7 +89,10 @@ def main(blocksets):
     blocks_directory = "powershell_codes"
     output_file = "scripts/script.ps1"
 
+    blocksets.insert(0,{'name':'AdminCheck','tag':'base'})
+    
     allblocks = load_blocks(blocks_directory)
     script_code = findBlock(allblocks, blocksets)
+    
     if write_script(script_code, output_file):
         return True
