@@ -1,0 +1,36 @@
+{
+    "Listusers": {
+        "description": "PowerShell script to list all users",
+        "requiresAdmin": false,
+        "Block": "net user"
+    },
+    "Createuser": {
+        "description": "PowerShell script to Create a User.",
+        "requiresAdmin": false,
+        "Block": "net user {{username}} {{password}} /add",
+        "extra":"\nnet localgroup administrators {{username}} /add\nnet user {{username}} /active:yes\nnet user {{username}} /expires:never\nnet user {{username}} /passwordneverexpires:yes\nnet user {{username}} /logonpasswordchg:no"
+    },
+    "Deleteuser": {
+        "description": "PowerShell script to delete a user.",
+        "requiresAdmin": true,
+        "Block": "net user {{username}} /delete"
+        
+    },
+    "Listgroups": {
+        "description": "PowerShell script to list all groups",
+        "requiresAdmin": false,
+        "Block": "net localgroup"
+    },
+    "Creategroup": {
+        "description": "PowerShell script to Create a group.",
+        "requiresAdmin": false,
+        "Block": "net localgroup {{groupname}} /add"
+        
+    },
+    "Deletegroup": {
+        "description": "PowerShell script to delete a group.",
+        "requiresAdmin": true,
+        "Block": "net localgroup {{groupname}} /delete"
+        
+    }
+}

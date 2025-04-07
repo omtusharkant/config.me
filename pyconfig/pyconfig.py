@@ -88,13 +88,19 @@ class PyConfig:
         
 
 
-        blocks = {'name':"DownloadFile",'vars':{"download_url ":url,"file_name":file_name},'tag':'base'}
+        blocks = {'name':"DownloadFile",'vars':{"download_url":url,"file_name":file_name},'tag':'base'}
         return blocks
     
     @staticmethod
     def install_python_version(path):
         ...
-        blocks = {'name':"InstallFile",'vars':{"install_file_path":path},'tag':'base'}
+        blocks = {'name':"InstallFile",'vars':{"install_file":path},'tag':'base'}
+        return blocks
+    
+    def createvirtualenv(envdir,envname):
+        ...
+
+        blocks = {'name':'VirtualEnv','vars':{"env_dir":envdir,"envname":envname},'tag':'python'}
         return blocks
     
     def install_library(libname):
